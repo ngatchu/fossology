@@ -1,7 +1,7 @@
 <?php
 /*
  Copyright (C) 2008-2014 Hewlett-Packard Development Company, L.P.
- Copyright (C) 2014-2015, Siemens AG
+ Copyright (C) 2014-2015, 2018 Siemens AG
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -383,7 +383,8 @@ class fo_libschema
       }
       foreach ($IndexInfo as $name => $sql)
       {
-        if (empty($name) || $this->schema['INDEX'][$table][$name] == $sql)
+        if (empty($name) || $this->schema['INDEX'][$table][$name] == $sql ||
+             (str_replace($table." ", "public.".$table." ", $this->schema['INDEX'][$table][$name]) == $sql))
         {
           continue;
         }
@@ -415,7 +416,8 @@ class fo_libschema
       }
       foreach ($indexInfo as $name => $sql)
       {
-        if (empty($name) || $this->currSchema['INDEX'][$table][$name] == $sql)
+        if (empty($name) || $this->currSchema['INDEX'][$table][$name] == $sql ||
+             ($this->currSchema['INDEX'][$table][$name] == str_replace($table." ", "public.".$table." ", $sql)))
         {
           continue;
         }
