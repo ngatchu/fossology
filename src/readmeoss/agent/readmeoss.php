@@ -149,10 +149,13 @@ class ReadmeOssAgent extends Agent
    * @param $extract
    * @param $break
    */ 
-  private function createReadMeOSSFormat($addSeparator, $dataForReadME, $extract='text', $break)
+  private function createReadMeOSSFormat($addSeparator, $dataForReadME, $extract='text', $break, $addShortName=false)
   {
     $outData = "";
     foreach($dataForReadME as $statements) {
+     if($addShortName) {
+       $outData .= $statements["content"] . $break;
+     }
      $outData .= $statements[$extract] . $break;
      if(!empty($addSeparator)) {
        $outData .= $addSeparator . $break;
@@ -175,15 +178,15 @@ class ReadmeOssAgent extends Agent
     $output = $separator1 . $break . $packageName . $break . $separator2 . $break;
     if(!empty($contents['licensesMain'])) {
       $output .= $separator1 . $break . " MAIN LICENSES " . $break . $separator2 . $break;
-      $output .= $this->createReadMeOSSFormat($separator2, $contents['licensesMain'], 'text', $break);
+      $output .= $this->createReadMeOSSFormat($separator2, $contents['licensesMain'], 'text', $break, true);
     }
     if(!empty($contents['licenses'])) {
       $output .= $separator1 . $break . " OTHER LICENSES " . $break . $separator2 . $break;
-      $output .= $this->createReadMeOSSFormat($separator2, $contents['licenses'], 'text', $break);
+      $output .= $this->createReadMeOSSFormat($separator2, $contents['licenses'], 'text', $break, true);
     }
     if(!empty($contents['licenseAcknowledgements'])) {
       $output .= $separator1 . $break . " ACKNOWLEDGEMENTS " . $break . $separator2 . $break;
-      $output .= $this->createReadMeOSSFormat($separator2, $contents['licenseAcknowledgements'], 'text', $break);
+      $output .= $this->createReadMeOSSFormat($separator2, $contents['licenseAcknowledgements'], 'text', $break, true);
     }
     $copyrights = $this->createReadMeOSSFormat("", $contents['copyrights'], 'content', "\r\n");
     if(empty($copyrights)) {
