@@ -115,6 +115,31 @@ class RestHelper
   {
     return $this->authHelper;
   }
-
-
+  
+    /**
+   * @return AuthHelper
+   */
+   
+  public function hasUserAccess()
+  {
+	  return true;  
+  }
+  
+      /**
+   * @return AuthHelper
+   */
+  
+  public function getGroupId()
+  {
+	  return true;
+  }
+  
+      /**
+   * @return AuthHelper
+   */
+   
+  public function getUserId($username)
+  { 
+	  return $this->userDao->getUserByName($username)['user_pk'];
+  }
 }

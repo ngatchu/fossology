@@ -30,7 +30,7 @@ require_once "helper/DbHelper.php";
 require_once "/usr/local/share/fossology/www/ui/search-helper.php";
 require_once "/usr/local/share/fossology/lib/php/common.php";
 require_once "/usr/local/share/fossology/www/ui/agent-add.php";
-require_once "/usr/local/share/fossology/www/ui/auth-helper.php";
+require_once "/usr/local/share/fossology/www/ui/api/helper/AuthHelper.php";
 
 //TODO: REMOVE ERROR_DISPLAY
 ini_set('display_errors', 1);
@@ -80,7 +80,7 @@ $app->GET(BASE_PATH.'uploads/{id}', function (Application $app, Request $request
     }
     else
     {
-      $error = new Info(400, "Bad Request. $id is not a number!", InfoType::ERROR);
+      $error = new Info(400, "Bad Reequest. $id is not a number!", InfoType::ERROR);
       return new Response($error->getJSON());
     }
   }
@@ -151,7 +151,8 @@ $app->GET(BASE_PATH.'uploads/', function (Application $app, Request $request)
   if($restHelper->hasUserAccess("SIMPLE_KEY"))
   {
     //get the id from the fossology user
-    $response = json_encode($dbHelper->getUploads($restHelper->getUserId()), JSON_PRETTY_PRINT);
+    $username = $request->headers->get("Php-Auth-User");
+    $response = json_encode($dbHelper->getUploads($restHelper->getUserId($username)), JSON_PRETTY_PRINT);
     return new Response($response, 200);
   }
   else
